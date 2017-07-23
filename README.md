@@ -1,15 +1,10 @@
 ﻿# HIBC-Barcode-Parser
 Parses Code 128 Barcode values using the HIBC Modulo 43 standard. The barcode parser verifies the
-"data" contained in barcode text by validating a value calculated from the message contents against
-a "check digit" embedded in the message.
+"data" contained in the barcode text by validating the value calculated from the message contents, against
+a "check digit" embedded within the message.
 
-## The HIBCC®
-As defined on their website http://hibcc.org, the Health Industry Business Communications Council,
-is an industry supported and internationally accredited nonprofit standards development
-organization with a global reach. The HIBCC develop standards that meet the unique requirements
-of the world's healthcare providers.
+### Use Cases
+The most common use cases are patient armband and healthcare product scanning. The check-digit verification ensures that the message contained is complete. Theoretically, this is in much the same way that we use the checksum validation in computer data files.
 
-## HIBC Bar Code/UDI Structures
-HIBC Auto-ID/bar code structures provide the first step toward creating the
-Unique Device Identifier (UDI) and Universal Product Numbers (UPN) that are now required
-for healthcare trading partners to do business.
+### This Project is NOT affiliated with The HIBCC®
+For information on the Health Industry Business Communications Council, please visit their website http://www.hibcc.org.
