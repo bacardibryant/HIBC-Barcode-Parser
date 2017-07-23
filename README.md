@@ -1,4 +1,4 @@
- <﻿# HIBC-Barcode-Parser
+﻿# HIBC-Barcode-Parser
 Parses Code 128 Barcode values using the HIBC Modulo 43 standard. The barcode parser verifies the
 "data" contained in the barcode text by validating the value calculated from the message contents, against
 a "check digit" embedded within the message.
