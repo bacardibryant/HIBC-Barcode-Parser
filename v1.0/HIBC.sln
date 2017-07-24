@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIBC", "HIBC\HIBC.csproj", "{9C849DE0-DD24-4649-BC85-032966934281}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIBC", "HIBC\HIBC.csproj", "{9C849DE0-DD24-4649-BC85-032966934281}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1.0", "v1.0", "{55672ECD-41AD-4E81-B40B-B1B5A11A868E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIBC.Tests", "HIBC.Tests\HIBC.Tests.csproj", "{121F1D8F-1859-47BB-86CA-854CE21B5D04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIBC.Tests", "HIBC.Tests\HIBC.Tests.csproj", "{121F1D8F-1859-47BB-86CA-854CE21B5D04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
