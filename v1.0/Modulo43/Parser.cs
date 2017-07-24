@@ -85,7 +85,7 @@ namespace Modulo43
         public Parser( string LabelerIdentificationCode )
         {
             // override default prefix
-            Prefix = LabelerIdentificationCode;
+            Prefix = LabelerIdentificationCode.Trim();
 
             // build HIBC character dictionary
             BuildDictionary( );
@@ -99,7 +99,7 @@ namespace Modulo43
         public Parser( string LabelerIdentificationCode, int modulus )
         {
             // override default prefix
-            Prefix = LabelerIdentificationCode;
+            Prefix = LabelerIdentificationCode.Trim();
 
             // override default modulus
             Modulus = modulus;
@@ -150,7 +150,7 @@ namespace Modulo43
 
             // Attempt to extract the check digit. Based on HIBC standards
             // the check digit is the last digit in the sequence of characters.
-            var linkCharacter = barcodeData[ barcodeData.Length - 1 ];
+            var checkDigit = barcodeData[ barcodeData.Length - 1 ];
 
             // Attempt to extract the unit of measure digit. Based on HIBC standards
             // the unit of measure digit is the second from the last digit in the
@@ -164,7 +164,7 @@ namespace Modulo43
             var characters = barcodeData.ToCharArray( 0, barcodeData.Length - 1 );
 
             // Extract the prefix
-            var prefix = ( !string.IsNullOrEmpty( _prefix ) ) ? barcodeData.Substring( 0, _prefix.Length - 1 ) : "";
+            var prefix = ( !string.IsNullOrEmpty( _prefix ) ) ? barcodeData.Substring( 0, _prefix.Length ) : "";
 
             // If we've made it this far, we are ready to populate the barcode properties.
             var barcode = new Barcode( );
@@ -175,7 +175,7 @@ namespace Modulo43
                 throw new Exception("The barcode prefix does not match the expected prefix.");
 
             // Extract the message
-            var message = new string( characters ).Substring( 2 );
+            var itemInformation = barcodeData.Substring(prefix.Length, barcodeData.Length - ( prefix.Length + 2 ) );
 
             // Calculate the sum of the characters.
             var total = characters.Sum( character => _data[ character ] );
@@ -186,18 +186,18 @@ namespace Modulo43
             // Retrieve the value of the test digit (expected check digit)
             // from the array of characters above based on the modulo value
             // which should match the index for the corresponding digit.
-            var calculatedDigit = _chars[ modulo ];
+            var calculatedCheckDigit = _chars[ modulo ];
 
             // Assign property values to the barcode object and return it as the result.
-            barcode.ItemNumber = barcodeData;
-            barcode.Message = message;
+            barcode.ItemNumber = itemInformation;
             barcode.LabelerIdentificationCode = prefix;
-            barcode.LinkCharacter = linkCharacter;
+            barcode.CheckDigit = checkDigit;
             barcode.Modulus = modulo;
             barcode.Sum = total;
-            barcode.CalculatedLinkCharacter = calculatedDigit;
-            barcode.IsValid = calculatedDigit.Equals( linkCharacter );
+            barcode.CalculatedCheckDigit = calculatedCheckDigit;
+            barcode.IsValid = calculatedCheckDigit.Equals( checkDigit );
             barcode.UnitOfMeasure = unitOfMeasure;
+            barcode.Data = barcodeData;
 
             return barcode;
         }
