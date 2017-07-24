@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Modulo43.Models
+﻿namespace Modulo43.Models
 {
     public class Barcode
     {

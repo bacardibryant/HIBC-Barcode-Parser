@@ -64,7 +64,6 @@ namespace HIBC
             BuildDictionary();
         }
 
-
         /// <summary>
         /// Populates the dictionary from the character array.
         /// The position of each character in the character array also represents its 

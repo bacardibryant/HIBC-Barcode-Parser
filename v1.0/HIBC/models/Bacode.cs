@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HIBC.Models
+﻿namespace HIBC.Models
 {
     public class Barcode
     {
