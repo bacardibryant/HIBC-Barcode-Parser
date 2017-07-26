@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Modulo 43 - Javascript Parser</title>
+    <script src="modules/js-string-trimmer.js"></script>
+    <script src="modules/Exceptions.js"></script>
+    <script src="modules/hibc-values-dictionary.js"></script>
+    <script src="models/barcode.js"></script>
+    <script src="modules/js-dict.js"></script>
+    <script src="modulo43-parser.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>Home</li>
+            </ul>
+        </nav>
+        <h1>HIBC Modulo 43 Parser</h1>
+        <h4>
+            Welcome to the testing page for the Javascript implementation of the
+            HIBC Modulo 43 Code 128 Barcode Standard.
+        </h4>
+        <p>Use the form below to test the parser.</p>
+    </header>
+    <main>
+        <section>
+            <form>
+                <label for="barcode-data">Scan/Enter Barcode</label>
+                <input type="text" id="barcode-data" name="barcode-data" autofocus required />
+                <input type="button" id="submitButton" onclick="javascript: parseBarcode('barcode-data');" value="Parse" />
+            </form>
+        </section>
+    </main>
+    <footer></footer>    
+    <script type="text/javascript">
+        //Barcode: +H2160408351
+        //LIC: +H216
+        //ProductCode: 04083
+        function parseBarcode(dataElementId) {
+            var barcodeData = document.getElementById(dataElementId).value;
+            Parse(barcodeData);
+        };
+
+        function Parse(barcodeData) {
+            var parser = new Parser('+H216', 43 );
+            parser.parseBarcodeData('+H2160408351');
+        };
+    </script>
+</body>
+
+</html>
