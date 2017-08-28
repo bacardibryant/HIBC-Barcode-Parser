@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIBC", "HIBC\HIBC.csproj", "{9C849DE0-DD24-4649-BC85-032966934281}"
 EndProject
@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIBC.Tests", "HIBC.Tests\HI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2.0", "v2.0", "{E3F3C836-6335-44EC-8F4A-8F62CAE352CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modulo43", "Modulo43\Modulo43.csproj", "{5239A4E0-16F8-46A9-9E38-9B9A39225974}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modulo43", "Modulo43\Modulo43.csproj", "{5239A4E0-16F8-46A9-9E38-9B9A39225974}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modulo43.Tests", "Modulo43.Tests\Modulo43.Tests.csproj", "{9C3292C2-F3C3-4A66-A88B-03C7E6DC833A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modulo43.Tests", "Modulo43.Tests\Modulo43.Tests.csproj", "{9C3292C2-F3C3-4A66-A88B-03C7E6DC833A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,8 +46,5 @@ Global
 		{121F1D8F-1859-47BB-86CA-854CE21B5D04} = {55672ECD-41AD-4E81-B40B-B1B5A11A868E}
 		{5239A4E0-16F8-46A9-9E38-9B9A39225974} = {E3F3C836-6335-44EC-8F4A-8F62CAE352CC}
 		{9C3292C2-F3C3-4A66-A88B-03C7E6DC833A} = {E3F3C836-6335-44EC-8F4A-8F62CAE352CC}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {77DAA03C-0D84-4D46-A69D-E88E29E136B1}
 	EndGlobalSection
 EndGlobal
