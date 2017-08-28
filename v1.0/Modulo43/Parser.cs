@@ -139,15 +139,15 @@ namespace Modulo43
                 throw new ArgumentNullException( barcodeData, "{0} cannot be empty." );
 
             // Strip any leading and trailing whitespace.
-            // TODO: if a barcode contains a valid whitespace character it should be allowed.
-            // As of now, the barcode will fail.
-            barcodeData = barcodeData.Trim( );
+            // One of the possible values of the Check/Link Character is a space character (value 38)
+            // The Check/Link Character is typically the last character in the sequence, so trimming the first character should be safe.
+            barcodeData = barcodeData.Trim();
 
             // Validate the number of characters is no more that the HIBC standard of 18
             // alphanumeric characters.
             if ( barcodeData.Length > 18 )
-                throw new FormatException("Invalid format. HIBC barcodes allows up to 18 alphanumeric characters.");
-
+                throw new FormatException("Invalid format. HIBC barcodes must beo 18 alphanumeric characters or less.");
+        
             // Attempt to extract the check digit. Based on HIBC standards
             // the check digit is the last digit in the sequence of characters.
             var checkDigit = barcodeData[ barcodeData.Length - 1 ];
@@ -198,6 +198,7 @@ namespace Modulo43
             barcode.IsValid = calculatedCheckDigit.Equals( checkDigit );
             barcode.UnitOfMeasure = unitOfMeasure;
             barcode.Data = barcodeData;
+            barcode.TotalNumberOfCharacters = barcodeData.Length;
 
             return barcode;
         }
