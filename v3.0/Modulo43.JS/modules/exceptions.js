@@ -5,5 +5,5 @@
 
 function LabelerIdentificationCodeException(message) {
     this.message = message;
-    this.name = "LabelerIdentificationException";
+    this.name = "LabelerIdentificationCodeException";
 }

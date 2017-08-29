@@ -144,7 +144,7 @@ namespace Modulo43
             barcodeData = barcodeData.Trim( );
 
             // Validate the number of characters is no more that the HIBC standard of 18
-            // alphanumeric characters.
+            // HIBC barcodes must not exceed 18 alphanumeric characters.
             if ( barcodeData.Length > 18 )
                 throw new FormatException("Invalid format. HIBC barcodes allows up to 18 alphanumeric characters.");
 
@@ -198,6 +198,7 @@ namespace Modulo43
             barcode.IsValid = calculatedCheckDigit.Equals( checkDigit );
             barcode.UnitOfMeasure = unitOfMeasure;
             barcode.Data = barcodeData;
+            barcode.TotalNumberOfCharacters = barcodeData.Length;
 
             return barcode;
         }
