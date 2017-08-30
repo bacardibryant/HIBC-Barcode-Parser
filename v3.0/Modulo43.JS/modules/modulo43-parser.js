@@ -1,5 +1,5 @@
 ﻿/*
-THIS CODE CAN BE USED TO PARSE HIBC PRIMARY BARCODES, SECONDARY BARCODES ARE NOT ABLE TO BE PARSED USING THIS LIBRARY.
+THIS CODE CAN BE USED TO PARSE HIBC PRIMARY BARCODES, SECONDARY BARCODES ARE NOT ABLE TO BE PARSED USING THIS MODULE.
 
 Test barcodes:
     // Barcode: +H2160408351
@@ -10,18 +10,10 @@ Test barcodes:
     // LIC: +A123
     // ProductCode: BJC5D6E7
 
-    // Barcode: +H216040A35R
-    // LIC: +H216
-    // ProductCode: 040A3
-
-    // Barcode: +H216040832$
-    // LIC: +H216
-    // ProductCode: 04083
-
 */
-function Parser(labelerIdentificationCode, modulus) {
 
-    this._dataDictionary = new HIBCDictionary().Characters;
+function Parser() {
+    this._dataDictionary = new HIBCDictionary().characters;
     this._checkDigit = "";
     this._total = 0;
     this._calculatedCheckDigit = "";
@@ -30,26 +22,15 @@ function Parser(labelerIdentificationCode, modulus) {
     this._itemInformation = "";
     this._numberOfCharacters = 0;
     this._modulo = 0;
-
-    // ECMAScript 6 type checking
-    if(Number.isInteger(modulus)){
-        this._modulus = modulus;
-    } else {
-        this._modulus = 43;
-    }
-
-    if ( labelerIdentificationCode && labelerIdentificationCode.length > 0 ) {
-        this._prefix = labelerIdentificationCode;
-    } else {
-        throw new LabelerIdentificationCodeException("Labeler Identification Code is required.");
-    }
+    this._modulus = 43;
+    this._prefixLength = 5;
 
 };
 
 
 Parser.prototype.validateBarcodeData = function ( data ) {
 
-    if ( data.length === undefined || data.length == 0 || data.length > 18 ) {
+    if ( data.length === undefined || data.length == 0 || data.length > 18 || data[0] != '+' ) {
         return false;
     } else {
         return true;
@@ -62,7 +43,6 @@ Parser.prototype.parseBarcodeData = function ( barcodeData ) {
     // trim the barcode of white space.
     // the complete data structure includes the check digit.
     // it must be removed for calculations.
-    //var completeDataStructure = new JSTrimmer().trim(barcodeData);
     var completeDataStructure = barcodeData.trim();
 
     // remove the check digit as although it is present, it is not a part of the data structure.
@@ -72,7 +52,7 @@ Parser.prototype.parseBarcodeData = function ( barcodeData ) {
     if (this.validateBarcodeData(completeDataStructure ) ) {
         this._input = completeDataStructure;
     } else {
-        throw new BarcodeFormatException("Barcode data is missing or contains more than 18 characters.");
+        throw new BarcodeFormatException("Barcode data is missing or does not meet HIBC format standards.");
     }
 
     // capture the length of the barcode to prevent multiple calls to the property which is backed by a method.
@@ -88,14 +68,14 @@ Parser.prototype.parseBarcodeData = function ( barcodeData ) {
     this._numberOfCharacters = dataLength;
 
 
-    //TODO: the labeler identification code (prefix) must be set and it must be validated against the barcode data.
-    this._prefix = completeDataStructure.substr(0, this._prefix.length);
+    // The labeler identification code (prefix) is a four character code assigned by the HIBCC.
+    // The prefix is comprised of the first five characters of the barcode data which includes the four character LIC
+    // along with the "+" HIBC barcode identifier.
+    this._prefix = completeDataStructure.substr(0, this._prefixLength);
 
-    // capture the length of the prefix to prevent future redundant calls.
-    var prefixLength = this._prefix.length;
-
-    // capture the item information.
-    this._itemInformation = sanitizedDataStructure.substr(prefixLength, dataLength - (prefixLength + 2));
+    // capture the item information, which is all of the characters (1-13) that follow the LIC code and precede the unit of measure
+    // and the link character.
+    this._itemInformation = sanitizedDataStructure.substr(this._prefixLength, dataLength - (this._prefixLength + 2));
 
     // iterate over the data structure and capture associated values in the data dictionary and sum to values.
     // this total will be used to calculate the modulo as defined in the specification.
@@ -114,22 +94,22 @@ Parser.prototype.parseBarcodeData = function ( barcodeData ) {
     this._calculatedCheckDigit = this._dataDictionary[this._modulo];
 
     // populate barcode values.
-    Barcode.sum = this._total;
-    Barcode.unitOfMeasure = this._unitOfMeasure;
-    Barcode.modulus = this._modulus;
-    Barcode.labelerIdentificationCode = this._prefix;
-    Barcode.checkDigit = this._checkDigit;
-    Barcode.calculatedCheckDigit = this._calculatedCheckDigit;
-    Barcode.isValid = this._checkDigit == this._calculatedCheckDigit;
-    Barcode.data = this._input;
-    Barcode.itemNumber = this._itemInformation;
-    Barcode.totalNumberOfCharacters = this._numberOfCharacters;
+    // this assumes that a script reference to the models/barcode.js model exists on the page.
+    // check for the barcode object, if it exists then populate it.
+    if (Barcode) {
+        Barcode.sum = this._total;
+        Barcode.unitOfMeasure = this._unitOfMeasure;
+        Barcode.modulus = this._modulus;
+        Barcode.labelerIdentificationCode = this._prefix.substr(1,4);
+        Barcode.checkDigit = this._checkDigit;
+        Barcode.calculatedCheckDigit = this._calculatedCheckDigit;
+        Barcode.isValid = this._checkDigit == this._calculatedCheckDigit;
+        Barcode.data = this._input;
+        Barcode.itemNumber = this._itemInformation;
+        Barcode.totalNumberOfCharacters = this._numberOfCharacters;
 
-    console.log('total characters: ' + Barcode.totalNumberOfCharacters);
-    console.log('check digit: ' + Barcode.checkDigit);
-    console.log('calculated check digit: ' + Barcode.calculatedCheckDigit);
-    console.log('prefix: ' + Barcode.labelerIdentificationCode);
-    console.log('is this a valid barcode? ' + Barcode.isValid);
-
-    return Barcode;
+        return Barcode;
+    } else {
+        return {};
+    }
 };
