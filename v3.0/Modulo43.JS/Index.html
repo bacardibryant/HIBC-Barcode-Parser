@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Modulo 43 - Javascript Parser</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="modules/js-string-extensions.js"></script>
+    <script src="modules/modulo43-exceptions.js"></script>
+    <script src="modules/hibc-values-dictionary.js"></script>
+    <script src="models/barcode.js"></script>
+    <script src="modules/modulo43-parser.js"></script>
+</head>
+<body>
+    <header>
+        <h1>HIBC Modulo 43 Parser</h1>
+        <h4>
+            This is a testing page for the Javascript implementation of the
+            HIBC Modulo 43 Primary Barcode Parser.
+        </h4>
+        <p>Use the form below to test the parser.</p>
+    </header>
+    <main>
+        <section>
+            <form>
+                <label for="barcode-data">Scan/Enter Barcode</label>
+                <input type="text" id="barcode-data" name="barcode-data" autofocus required />
+                <input type="button" id="submitButton" onclick="javascript: readBarcode('barcode-data');" value="Parse" />
+            </form>
+        </section>
+    </main>
+    <footer></footer>    
+    <script type="text/javascript">
+
+        function readBarcode(dataElementId) {
+
+            // read the scanned barcode data
+            var barcodeData = document.getElementById(dataElementId).value;
+
+            // pass the barcode value to the parser which will return a barcode with a status of valid or invalid.
+            var barcode = Parse(barcodeData);
+
+            // if the barcode.js module has been referenced and barcode is not null or undefined, log the property values to the console.
+            if (barcode) {
+                console.log(barcode.data);
+                console.log('Total characters: ' + Barcode.totalNumberOfCharacters);
+                console.log('Check digit: ' + Barcode.checkDigit);
+                console.log('Calculated check digit: ' + Barcode.calculatedCheckDigit);
+                console.log('LIC: ' + Barcode.labelerIdentificationCode);
+                console.log('Is this a valid barcode? ' + Barcode.isValid);
+                console.log('Product information: ' + Barcode.itemNumber);
+                console.log('Unit of measure: ' + Barcode.unitOfMeasure);
+            }
+
+            // just a utility method to ensure that the characters are in the expected position.
+            // logs the accepted characters along with their positions to the console.
+            var dict = new HIBCDictionary().printPositions();
+        };
+
+        
+        function Parse(barcodeData) {
+
+            // instantiate the parser object.
+            var parser = new Parser();
+
+            // call the parse... method on the barcode data.
+            return parser.parseBarcodeData(barcodeData);
+        };
+    </script>
+</body>
+
+</html>
